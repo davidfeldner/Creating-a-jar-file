@@ -1,3 +1,5 @@
+# Creating a jar file
+
 # Making a simple jar for the Handins
 
 For the handins you don't have to create a "fat" standalone jar which includes all the javafx libraries, since we can just specify the javafx lilbraries manually, or just clone your code from Github.
