@@ -58,7 +58,7 @@ Intellij has built in support to create jar files:
 - Lastly build your jar by choosing: Build -> Build Artifacts... -> Build
   You should shortly after this get a jar in the /out/artifacts/{project-name}_jar/{project-name}.jar
 
-(You should not have to add resources manually, since it is marked in Intellij and should be in the compiled output, BUT it was not for me, so i had to add them manually.)
+_(It seems like a bug that you have to add resources manually, since it is marked in Intellij and should be in the compiled output, but it was not for me. If you figure out how to fix this without adding the resource folder manually to the jar, do tell me.)_
 
 ## Make a jar WITHOUT modules
 
