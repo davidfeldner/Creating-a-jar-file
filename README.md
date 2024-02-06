@@ -18,18 +18,19 @@ For example:
 ```gradle
 jar {
   manifest {
-    attributes "Main-Class": "org.example.demo.Launcher"
+    attributes "Main-Class": "org.example.demo.App"
   }
 }
 ```
-Then simply run your program, running will run the gradle jar task, you can also just run `gradle jar`, and check in /build/libs, there should be a .jar file which you can use.
-And you are done, this jar is fine for the hand-ins! But when you develop your final project you will need a 'fat' jar.
+Press the little button to reload the build.gradle and simply run your program, running the program will run the 'gradle jar task', you can also just run `gradle jar`. Check in /build/libs, there should be a .jar file which you can use.
+**And you are done**, this jar is fine for the hand-ins! But when you develop your final project you will need a 'fat' jar.
 
-If you try to run the program *it should error and say that it is missing JavaFX components. Don't worry about it.*
+If you try to run the program **it should error and say that it is missing JavaFX components. Don't worry about it.**
 
 <details>
   <summary>How are we then going to run it? </summary>
-With this command we can run it, but you have to have the javafx libraries in one folder on your pc:
+With this command we can run it, but you have to have the javafx libraries in a folder on your pc:
+
 ```bash
 java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.fxml -jar {name}.jar
 ```
