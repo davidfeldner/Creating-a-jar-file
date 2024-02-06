@@ -13,7 +13,7 @@ jar {
 }
 ```
 
-(You can find the main class above in application -> mainClass, and copy it from there)
+(You can find the main class above in build.gradle in application -> mainClass, and copy it from there)
 
 Then simply run your program, and check in /build/libs, there should be a .jar file which you can use.
 And you are done, this jar is fine for the hand-ins! But when you develop your final project you will need a 'fat' jar.
