@@ -1,8 +1,8 @@
 # Creating a jar file
 
-# Making a simple jar for the Handins
+## Making a simple jar for the hand-ins
 
-For the handins you don't have to create a "fat" standalone jar which includes all the javafx libraries, since we can just specify the javafx lilbraries manually, or just clone your code from Github.
+For the hand-ins you don't have to create a "fat" standalone jar which includes all the JavaFX libraries, since we can just specify the JavaFX libraries manually, or just clone your code from Github.
 Simply specify the main class in the build.gradle like this:
 
 ```gradle
@@ -13,19 +13,21 @@ jar {
 }
 ```
 
-(You can also find the main class above in application -> mainClass, and copy it from there)
+(You can find the main class above in application -> mainClass, and copy it from there)
+
 Then simply run your program, and check in /build/libs, there should be a .jar file which you can use.
-And you are done, this jar is fine for the handins! But when you develop your final project you will need a 'fat' jar.
+And you are done, this jar is fine for the hand-ins! But when you develop your final project you will need a 'fat' jar.
 
-If you try to run the program it should say that it is missing javafx components, which we can specify with:
+If you try to run the program it should say that it is missing JavaFX components, which we can specify with:
 
-````bash
-java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.fxml -jar {name}.jar```
+```bash
+java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.fxml -jar {name}.jar
+```
 
 # Making a 'fat' Jar
-Making a 'fat' jar with all plugins is not recommended since it breaks the seperation of modules and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will need to make one, so read on. :)
+Making a 'fat' jar with all plugins is not recommended since it breaks the separation of modules and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will need to make one, so read on. :)
 
-## Prerequsites
+## Prerequisites
 A fat jar file can't start a class which extends the Application class. For this reason you will need to make a launcher class which does not extend anything, and calls the main method of your application. Example of Launcher.java:
 
 ```java
@@ -34,13 +36,13 @@ public class Launcher {
         HelloApplication.main(args);
     }
 }
-````
+```
 
 ## Modular jar
 
-Since java 9 it is recommended to use modules to seperate groups of packages. When creating a new javafx project in intellij, you are already using modules. There will be a module-info.java file in /src/main/java, and this file specifies what other modules are used, and what modules can access your code.
+Since java 9, it is recommended to use modules to separate groups of packages. When creating a new JavaFX project in Intellij, you are already using modules. There will be a module-info.java file in /src/main/java, and this file specifies what other modules are used, and what modules can access your code.
 
-### Make a Modular jar
+### Make a jar with modules
 
 Intellij has built in support to create jar files:
 
@@ -56,9 +58,9 @@ Intellij has built in support to create jar files:
 - Lastly build your jar by choosing: Build -> Build Artifacts... -> Build
   You should shortly after this get a jar in the /out/artifacts/{project-name}_jar/{project-name}.jar
 
-(You should not have to add resources manually, since it's marked in intellij and should be in the compiled output, BUT it was not for me, so i had to add them manually.)
+(You should not have to add resources manually, since it is marked in Intellij and should be in the compiled output, BUT it was not for me, so i had to add them manually.)
 
-## Make a non-modular jar
+## Make a jar WITHOUT modules
 
 This is the old way of creating a jar file, for when your project does not use modules. To use this method you have to not use a module. Remove both the module-info.java file and the "mainModule = '{module-name}'" from the build.gradle, under application. (You can also remove the 'org.javamodularity.moduleplugin').
 
@@ -83,41 +85,45 @@ https://www.jetbrains.com/help/idea/getting-started-with-gradle.html#deploy_grad
 
 ## Making it cross-platform
 
-The jar files we have made include javafx for the platform you build them on, but won't work if you move them. We use the `javafxplugin` to get libraries, but this does not allow you to add multiple platforms. But we can manually add all the libraries, simply add this to the dependencies in build.gradle:
+The jar files we have made include JavaFX for the platform you build them on, but won't work if you move them. We use the `javafxplugin` to get libraries, but this does not allow you to add multiple platforms. But we can manually add all the libraries, simply add this to the dependencies in build.gradle:
 
 ```gradle
-implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
-implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
-implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
-implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
-implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac'
-implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
-implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
-implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac'
-implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
-implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
-implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
-implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
+dependencies {
+  implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
+  implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac'
+  implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
+  implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
+  implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac'
+  implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
+  implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
+  implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac'
+  implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
+  implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
+  implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac'
+  implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
+}
 ```
 
 Also specify javaFxVersion in the ext part of build.gradle:
 
 ```gradle
-javaFxVersion = '17.0.6'
+ext {
+  javaFxVersion = '17.0.6'
+}
 ```
 
-You should see the new libraries in the 'external libraries' part of the project/file explorer. New libraries are not automatically added to a artifact, so you will need to go back into artifacts and recreate the jar artifact, as in step #Making a modular jar.
+You should see the new libraries in the 'external libraries' part of the project/file explorer. New libraries are not automatically added to a artifact, so you will need to go back into artifacts and recreate the jar artifact, as in step [Make a jar with modules](#make-a-jar-with-modules).
 
-## Running a jar
+# Running a jar
 
-You can run a with `java -jar {jar-name}.jar` if you have java install on your system. otherwise you can run it through intellij following this guide (The 'before launch' is under code coverage now):
+You can run a jar file with `java -jar {jar-name}.jar` if you have java installed on your system. Otherwise you can run it through Intellij following this guide (The 'before launch' is under code coverage now):
 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html#create_jar_run_config
 
 ## Common errors and solutions:
 
 ### Error: no main manifest attribute, in {name}.jar
 
-- The Main-Class attribute in MANIFEST.MF is no set correctly. Check that
+- The Main-Class attribute in MANIFEST.MF is not set correctly. MANIFEST.MF should be in your resources folder, and the resource folder should be in the jar artifact at the top, do not sort the items.
 
 ### Error: JavaFX runtime components are missing, and are required to run this application
 
@@ -129,7 +135,8 @@ https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-applica
 
 ### Error: "Execution failed for task ':run'. ... java finished with non-zero exit value 1"
 
-- Have you added the gradle code for the jar task to build a non modular jar? Check that you don't have 'mainModule' set under application. Otherwise gradle might think that you are still using modules.
+- Have you added the gradle code for the jar task to build a non modular jar? <br>
+Check that you don't have 'mainModule' set under application. Otherwise gradle might think that you are still using modules.
 
 # Debugging a jar
 
