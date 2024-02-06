@@ -8,23 +8,37 @@ Simply specify the main class in the build.gradle like this:
 ```gradle
 jar {
   manifest {
-    attributes "Main-Class": "{your-module}.{your-mainClass}"
+    attributes "Main-Class": "{your-mainClass}"
   }
 }
 ```
 
 (You can find the main class above in build.gradle in application -> mainClass, and copy it from there)
-
-Then simply run your program, and check in /build/libs, there should be a .jar file which you can use.
+For example:
+```gradle
+jar {
+  manifest {
+    attributes "Main-Class": "org.example.demo.Launcher"
+  }
+}
+```
+Then simply run your program, running will run the gradle jar task, you can also just run `gradle jar`, and check in /build/libs, there should be a .jar file which you can use.
 And you are done, this jar is fine for the hand-ins! But when you develop your final project you will need a 'fat' jar.
 
-If you try to run the program it should say that it is missing JavaFX components, which we can specify with:
+If you try to run the program *it should error and say that it is missing JavaFX components. Don't worry about it.*
 
+<details>
+  <summary>How are we then going to run it? </summary>
+With this command we can run it, but you have to have the javafx libraries in one folder on your pc:
 ```bash
 java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.fxml -jar {name}.jar
 ```
+</details>
 
-# Making a fat Jar
+# Making a fat Jar 
+Don't worry about this for the hand-ins. :)
+<details>
+<summary> I want to see</summary>
 Making a fat jar with all plugins is usually not recommended in java, since it breaks the separation of modules, and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will, as far as i know, still need to make one, so read on. :)
 
 ## Prerequisites
@@ -115,8 +129,11 @@ ext {
 
 You should see the new libraries in the 'external libraries' part of the project/file explorer. New libraries are not automatically added to a artifact, so you will need to go back into artifacts and recreate the jar artifact, as in step [Make a jar with modules](#make-a-jar-with-modules).
 
-# Running a jar
+</details>
 
+# Running a jar
+<details>
+<summary>Again don't worry for now, but look if interested</summary>
 You can run a jar file with `java -jar {jar-name}.jar` if you have java installed on your system. Otherwise you can run it through Intellij following this guide (The 'before launch' is under code coverage now):
 https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-application.html#create_jar_run_config
 
@@ -141,8 +158,11 @@ Check that you don't have 'mainModule' set under application. Otherwise gradle m
 
 ### Warning: : Unsupported JavaFX configuration: classes were loaded from 'unnamed module...'
 This is just a warning that we broke modularity by creating a fat jar. As far as i know this can't be avoided, so just ignore it.
+</details>
 
 # Debugging a jar
+<details>
+<summary>Expand</summary>
 
 A jar file is just a zip file with a few required files. So if the jar can't run, just unzip it:
 `unzip example.jar`
@@ -152,3 +172,4 @@ A correct jar file with JavaFX should have:
 - A META-INF directory, with a MANIFEST.MF which specifies "Main-Class: {your-main-module}.{your-launcher-class}".
 - A javafx directory with a bunch of things inside
 - Your code as .class files, and resources, if fx my main class is at org.example.{project-name}.Launcher, then there should be a /org/example/{project-name} directory with a Launcher.class and all resources used.
+</details>
