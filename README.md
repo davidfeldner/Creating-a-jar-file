@@ -2,7 +2,7 @@
 
 ## Making a simple jar for the hand-ins
 
-For the hand-ins you don't have to create a "fat" standalone jar which includes all the JavaFX libraries, since we can just specify the JavaFX libraries manually, or just clone your code from Github.
+For the hand-ins you don't have to create a 'fat' standalone jar which includes all the JavaFX libraries, since we can just specify the JavaFX libraries manually, or just clone your code from Github.
 Simply specify the main class in the build.gradle like this:
 
 ```gradle
@@ -24,8 +24,8 @@ If you try to run the program it should say that it is missing JavaFX components
 java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.fxml -jar {name}.jar
 ```
 
-# Making a 'fat' Jar
-Making a 'fat' jar with all plugins is not recommended since it breaks the separation of modules and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will, as far as i know, still need to make one, so read on. :)
+# Making a fat Jar
+Making a fat jar with all plugins is usually not recommended in java, since it breaks the separation of modules, and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will, as far as i know, still need to make one, so read on. :)
 
 ## Prerequisites
 A fat jar file can't start a class which extends the Application class. For this reason you will need to make a launcher class which does not extend anything, and calls the main method of your application. Example of Launcher.java:
@@ -38,7 +38,7 @@ public class Launcher {
 }
 ```
 
-## Modular jar
+## Jar with modules (Recommended)
 
 Since java 9, it is recommended to use modules to separate groups of packages. When creating a new JavaFX project in Intellij, you are already using modules. There will be a module-info.java file in /src/main/java, and this file specifies what other modules are used, and what modules can access your code.
 
@@ -58,11 +58,13 @@ Intellij has built in support to create jar files:
 - Lastly build your jar by choosing: Build -> Build Artifacts... -> Build
   You should shortly after this get a jar in the /out/artifacts/{project-name}_jar/{project-name}.jar
 
+Now you should have a fat jar which can run. (Remember to look at [Making it cross-platform](#making-it-cross-platform))
+
 _(It seems like a bug that you have to add resources manually, since it is marked in Intellij and should be in the compiled output, but it was not for me. If you figure out how to fix this without adding the resource folder manually to the jar, do tell me.)_
 
 ## Make a jar WITHOUT modules
 
-This is the old way of creating a jar file, for when your project does not use modules. To use this method you have to not use a module. Remove both the module-info.java file and the "mainModule = '{module-name}'" from the build.gradle, under application. (You can also remove the 'org.javamodularity.moduleplugin').
+This is the old way of creating a jar file, for when your project does not use modules. To use this method you have to change your project to not use modules: Remove both the module-info.java file and the "mainModule = '{module-name}'" from the build.gradle, under application. (You can also remove the 'org.javamodularity.moduleplugin').
 
 Now that you are not using modules you can add the following to build.gradle:
 
@@ -79,13 +81,12 @@ jar {
 }
 ```
 
-Running `gradle build` with this will create a runnable jar in /build/libs.
-
-https://www.jetbrains.com/help/idea/getting-started-with-gradle.html#deploy_gradle
+Running `gradle build` with this will create a runnable jar in /build/libs. <br>
+This step is also described well on: [Jetbrains - Getting started with gradle](https://www.jetbrains.com/help/idea/getting-started-with-gradle.html#deploy_gradle).
 
 ## Making it cross-platform
 
-The jar files we have made include JavaFX for the platform you build them on, but won't work if you move them. We use the `javafxplugin` to get libraries, but this does not allow you to add multiple platforms. But we can manually add all the libraries, simply add this to the dependencies in build.gradle:
+The jar files we have made include JavaFX for the platform you build them on, but won't work if you move them. We currently use the `javafxplugin` to automatically get libraries, but this does not allow you to add multiple platforms (as of 0.1.0). But we can manually add all the libraries, simply add this to the dependencies in build.gradle:
 
 ```gradle
 dependencies {
@@ -137,6 +138,9 @@ https://www.jetbrains.com/help/idea/creating-and-running-your-first-java-applica
 
 - Have you added the gradle code for the jar task to build a non modular jar? <br>
 Check that you don't have 'mainModule' set under application. Otherwise gradle might think that you are still using modules.
+
+### Warning: : Unsupported JavaFX configuration: classes were loaded from 'unnamed module...'
+This is just a warning that we broke modularity by creating a fat jar. As far as i know this can't be avoided, so just ignore it.
 
 # Debugging a jar
 
