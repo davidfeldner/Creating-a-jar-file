@@ -25,7 +25,7 @@ java --module-path {path-to-java-fx-libs} --add-modules javafx.controls,javafx.f
 ```
 
 # Making a 'fat' Jar
-Making a 'fat' jar with all plugins is not recommended since it breaks the separation of modules and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will need to make one, so read on. :)
+Making a 'fat' jar with all plugins is not recommended since it breaks the separation of modules and there are other solutions like `jlink`, `jpackage` and `native-image`, but for this course you will, as far as i know, still need to make one, so read on. :)
 
 ## Prerequisites
 A fat jar file can't start a class which extends the Application class. For this reason you will need to make a launcher class which does not extend anything, and calls the main method of your application. Example of Launcher.java:
