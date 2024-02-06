@@ -42,7 +42,7 @@ public class Launcher {
 
 Since java 9, it is recommended to use modules to separate groups of packages. When creating a new JavaFX project in Intellij, you are already using modules. There will be a module-info.java file in /src/main/java, and this file specifies what other modules are used, and what modules can access your code.
 
-### Make a jar with modules
+### Make a fat jar with modules
 
 Intellij has built in support to create jar files:
 
@@ -62,9 +62,9 @@ Now you should have a fat jar which can run. (Remember to look at [Making it cro
 
 _(It seems like a bug that you have to add resources manually, since it is marked in Intellij and should be in the compiled output, but it was not for me. If you figure out how to fix this without adding the resource folder manually to the jar, do tell me.)_
 
-## Make a jar WITHOUT modules
+## Make a fat jar WITHOUT modules
 
-This is the old way of creating a jar file, for when your project does not use modules. To use this method you have to change your project to not use modules: Remove both the module-info.java file and the "mainModule = '{module-name}'" from the build.gradle, under application. (You can also remove the 'org.javamodularity.moduleplugin').
+This is the old way of creating a fat jar file, for when your project does not use modules. To use this method you have to change your project to not use modules: Remove both the module-info.java file and the "mainModule = '{module-name}'" from the build.gradle, under application. (You can also remove the 'org.javamodularity.moduleplugin').
 
 Now that you are not using modules you can add the following to build.gradle:
 
